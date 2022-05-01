@@ -1,0 +1,29 @@
+import { Field, InputType, Int } from '@nestjs/graphql';
+
+@InputType()
+export class addvalInput {
+  @Field()
+  path: string;
+
+  @Field((type) => [String], { nullable: true })
+  tag?: string[];
+
+  @Field()
+  requestMethod: string;
+
+  @Field((type) => String)
+  requestURL: string;
+    responseCode: number;
+    responseHeader: KeyValInput[];
+    responseData: string;
+}
+
+
+@InputType()
+export class KeyValInput {
+  @Field()
+  key: string;
+
+  @Field()
+  value: string;
+}

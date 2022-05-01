@@ -1,0 +1,32 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type MongoGraphql {
+  path: String!
+  tag: [String!]
+  requestMethod: String!
+  responseCode: Float!
+  responseHeader: [KeyVal!]!
+  responseData: String!
+}
+
+type KeyVal {
+  key: String!
+  value: String!
+}
+
+type Query {
+  GPL: [MongoGraphql!]!
+}
+
+type Mutation {
+  addVal(addvalInput: addvalInput!): MongoGraphql!
+}
+
+input addvalInput {
+  path: String!
+  tag: [String!]
+  requestMethod: String!
+  requestURL: String!
+}
