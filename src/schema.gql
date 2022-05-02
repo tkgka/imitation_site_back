@@ -32,7 +32,7 @@ input addvalInput {
   requestURL: String!
   Description: String
   requestHeaders: [KeyValInput!]
-  requestData: String
+  requestData: [KeyValInput!]
 }
 
 input KeyValInput {

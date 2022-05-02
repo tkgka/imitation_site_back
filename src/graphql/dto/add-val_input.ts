@@ -24,8 +24,8 @@ export class addvalInput {
   @Field((type) => [KeyValInput], { nullable: true })
   requestHeaders?: KeyValInput[];
 
-  @Field((type) => String, { nullable: true })
-  requestData?: string;
+  @Field((type) => [KeyValInput], { nullable: true })
+  requestData?: KeyValInput[];
 
 }
 

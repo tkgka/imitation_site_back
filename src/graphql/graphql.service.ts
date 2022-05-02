@@ -12,14 +12,15 @@ export class GraphqlService {
 
   async addDataByURL(data: addvalInput): Promise<MongoGraphql> {
     
-    let RequestHeader = arrayToObject(data.requestHeaders)
-    
+    const RequestHeader = arrayToObject(data.requestHeaders)
+    const requestData = arrayToObject(data.requestData)
+
     const buf = await Axios({
       url: data.requestURL,
       method: data.requestMethod,
       responseType: 'arraybuffer',
       headers: RequestHeader,
-      data: data.requestData
+      data: requestData
     });
 
     var NewResponseHeader = []
@@ -31,8 +32,8 @@ export class GraphqlService {
     data.responseCode = buf.status;
     data.responseHeader = NewResponseHeader;
     data.responseData = buf.data.toString('hex');
-    return null
-    // return this.addData(data);
+    // console.log(data)
+    return this.addData(data);
   }
 
   async addData(data: MongoGraphql) {
