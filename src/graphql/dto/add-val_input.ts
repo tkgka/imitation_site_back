@@ -16,6 +16,17 @@ export class addvalInput {
     responseCode: number;
     responseHeader: KeyValInput[];
     responseData: string;
+
+    @Field((type) => String, { nullable: true })
+    Description?: string;
+
+  
+  @Field((type) => [KeyValInput], { nullable: true })
+  requestHeaders?: KeyValInput[];
+
+  @Field((type) => String, { nullable: true })
+  requestData?: string;
+
 }
 
 

@@ -7,12 +7,12 @@ export class GraphqlResolver {
   constructor(private GraphqlService: GraphqlService) {}
 
   @Query((returns) => [MongoGraphql])
-  GPL(): Promise<MongoGraphql[]> {
+  gql(): Promise<MongoGraphql[]> {
     return this.GraphqlService.findAll();
   }
 
   @Mutation((returns) => MongoGraphql)
   addVal(@Args('addvalInput') addvalInput: addvalInput): Promise<MongoGraphql> {
-    return this.GraphqlService.addData(addvalInput);
+    return this.GraphqlService.addDataByURL(addvalInput);
   }
 }

@@ -1,21 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req } from '@nestjs/common';
 import { MongoGraphql } from './graphql.entity';
 import { startSession } from 'mongoose';
 import Axios from 'axios';
 import { addvalInput } from './dto/add-val_input';
 const Content = require('../DB/contents');
+import { arrayToObject } from 'src/GlobalFunctions';
 
 @Injectable()
 export class GraphqlService {
-  async addData(data: addvalInput): Promise<MongoGraphql> {
-    const session = await startSession();
+
+
+  async addDataByURL(data: addvalInput): Promise<MongoGraphql> {
+    
+    let RequestHeader = arrayToObject(data.requestHeaders)
+    
     const buf = await Axios({
       url: data.requestURL,
       method: data.requestMethod,
       responseType: 'arraybuffer',
+      headers: RequestHeader,
+      data: data.requestData
     });
 
-    console.log(buf.headers);
     var NewResponseHeader = []
 
     for (var key in buf.headers) {
@@ -25,13 +31,20 @@ export class GraphqlService {
     data.responseCode = buf.status;
     data.responseHeader = NewResponseHeader;
     data.responseData = buf.data.toString('hex');
-    
+    return null
+    // return this.addData(data);
+  }
+
+  async addData(data: MongoGraphql) {
+    const session = await startSession();
     try {
-      session.startTransaction();
+      session.startTransaction();  
       const newData = new Content(data);
       const result = await newData.save();
       await session.commitTransaction();
       return result;
+      
+
     } catch (err) {
       await session.abortTransaction();
       throw err;
@@ -40,7 +53,21 @@ export class GraphqlService {
     }
   }
 
+
+
+
   async findAll(): Promise<MongoGraphql[]> {
     return Content.find();
   }
+
+  async findByTag(val): Promise<MongoGraphql[]> {
+    let data = Content.find({ tag: { $all: val }} ,{path:1, Description:1, _id:0})
+    return data
+  }
+
+  async findByPath(val): Promise<MongoGraphql[]> {
+    let data = Content.find({ path: { $in: val }})
+    return data
+  }
+
 }

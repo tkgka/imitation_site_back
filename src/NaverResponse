@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: X-Requested-With
+Content-Type: text/html; charset=utf-8
+Content-Length: 34
+ETag: W/"22-LP/W1Gf9U5kQ/LoyVrFdQm8n2NA"
+Date: Mon, 02 May 2022 04:26:26 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+Location: https://www.naver.com/

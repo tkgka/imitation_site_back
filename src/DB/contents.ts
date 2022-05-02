@@ -5,8 +5,9 @@ const { Schema } = mongoose;
 const contentSchema: any = new Schema({
   path: {
     type: String,
-    required: true,
+    unique: true,
     index: true,
+    required: true
   },
   tag: {
     type: [String],
@@ -30,6 +31,10 @@ const contentSchema: any = new Schema({
   responseData: {
     type: String,
     required: true,
+  },
+  Description: {
+    type: String,
+    required: false,
   },
   createdAt: {
     type: Date,

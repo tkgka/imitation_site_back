@@ -9,6 +9,7 @@ type MongoGraphql {
   responseCode: Float!
   responseHeader: [KeyVal!]!
   responseData: String!
+  Description: String
 }
 
 type KeyVal {
@@ -17,7 +18,7 @@ type KeyVal {
 }
 
 type Query {
-  GPL: [MongoGraphql!]!
+  gql: [MongoGraphql!]!
 }
 
 type Mutation {
@@ -29,4 +30,12 @@ input addvalInput {
   tag: [String!]
   requestMethod: String!
   requestURL: String!
+  Description: String
+  requestHeaders: [KeyValInput!]
+  requestData: String
+}
+
+input KeyValInput {
+  key: String!
+  value: String!
 }
