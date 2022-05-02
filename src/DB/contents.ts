@@ -32,7 +32,7 @@ const contentSchema: any = new Schema({
     type: String,
     required: true,
   },
-  Description: {
+  description: {
     type: String,
     required: false,
   },

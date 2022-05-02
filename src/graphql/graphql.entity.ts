@@ -21,7 +21,7 @@ export class MongoGraphql {
   responseData: string;
 
   @Field((type) => String, { nullable: true })
-  Description?: string;
+  description?: string;
 }
 
 @ObjectType()

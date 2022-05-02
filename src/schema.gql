@@ -9,7 +9,7 @@ type MongoGraphql {
   responseCode: Float!
   responseHeader: [KeyVal!]!
   responseData: String!
-  Description: String
+  description: String
 }
 
 type KeyVal {
@@ -30,7 +30,7 @@ input addvalInput {
   tag: [String!]
   requestMethod: String!
   requestURL: String!
-  Description: String
+  description: String
   requestHeaders: [KeyValInput!]
   requestData: [KeyValInput!]
 }

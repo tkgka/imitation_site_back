@@ -5,6 +5,7 @@ import Axios from 'axios';
 import { addvalInput } from './dto/add-val_input';
 const Content = require('../DB/contents');
 import { arrayToObject } from 'src/GlobalFunctions';
+import reg_pattern from '../reg_pattern';
 
 @Injectable()
 export class GraphqlService {
@@ -13,7 +14,12 @@ export class GraphqlService {
   async addDataByURL(data: addvalInput): Promise<MongoGraphql> {
     
     const RequestHeader = arrayToObject(data.requestHeaders)
-    const requestData = arrayToObject(data.requestData)
+    var requestData = null
+
+    if (data.requestData != undefined) {
+    requestData = arrayToObject(data.requestData)
+    }
+    data.requestURL.match(reg_pattern.pattern) ? (data.requestURL = data.requestURL) : (data.requestURL = `https://${data.requestURL}`);
 
     const buf = await Axios({
       url: data.requestURL,
@@ -70,5 +76,16 @@ export class GraphqlService {
     let data = Content.find({ path: { $in: val }})
     return data
   }
+
+async findByResCode(val): Promise<MongoGraphql[]> {
+    let data = Content.find({ responseCode: { $in: val }} ,{path:1, Description:1, _id:0})
+    return data
+  }
+
+async findByMethod(val): Promise<MongoGraphql[]> {
+    let data = Content.find({ requestMethod: { $in: val }} ,{path:1, Description:1, _id:0})
+    return data
+  }
+
 
 }

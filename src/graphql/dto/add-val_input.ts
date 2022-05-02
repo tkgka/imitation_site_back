@@ -18,7 +18,7 @@ export class addvalInput {
     responseData: string;
 
     @Field((type) => String, { nullable: true })
-    Description?: string;
+    description?: string;
 
   
   @Field((type) => [KeyValInput], { nullable: true })
