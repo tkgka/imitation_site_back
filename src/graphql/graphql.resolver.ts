@@ -13,6 +13,7 @@ export class GraphqlResolver {
 
   @Mutation((returns) => MongoGraphql)
   addVal(@Args('addvalInput') addvalInput: addvalInput): Promise<MongoGraphql> {
+    // console.log(addvalInput);
     return this.GraphqlService.addDataByURL(addvalInput);
   }
 }

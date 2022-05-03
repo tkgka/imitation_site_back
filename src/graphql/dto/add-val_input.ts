@@ -29,7 +29,6 @@ export class addvalInput {
 
 }
 
-
 @InputType()
 export class KeyValInput {
   @Field()

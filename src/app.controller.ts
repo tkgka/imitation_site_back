@@ -8,17 +8,6 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
  
  
-  @Post('/upload')
-  @UseInterceptors(FileInterceptor('file'))
-  @Bind(UploadedFile())
-  uploadFile(file, @Response() res: Res) {
-    // console.log(file.buffer);
-    
-    return res.socket.end(file.buffer);
-  }
-  
-  
-  
   @Get('/')
   async ReturnBuffer(@Response() res: Res, @Req() req) {
     try {

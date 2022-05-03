@@ -1,7 +1,10 @@
-import { Controller, Get, Response, Req, Body, Post } from '@nestjs/common';
+import { Controller, Get, Response, Req, Body, Post, UploadedFile, Bind, UseInterceptors } from '@nestjs/common';
 import { Response as Res } from 'express';
 import { GraphqlService } from './graphql.service';
-import { arrayToObject } from 'src/GlobalFunctions';
+import { arrayToObject, HexToJson } from 'src/GlobalFunctions';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MongoGraphql } from './graphql.entity';
+import { addvalInput } from './dto/add-val_input';
 const fs = require("fs")
 
 @Controller('graphql')
@@ -10,9 +13,52 @@ export class GraphqlController {
     
 
 
+    
+    @Post('upload')
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadFile(@UploadedFile() file: Express.Multer.File, @Response() res: Res, @Body() body) {
+        // console.log(file,body.name)
+        if ((file != undefined && file != null) && (body.path != undefined && body.path != null) && (body.toDB != undefined && body.toDB != null)) {
+            
+            const ReturnCodeNHeader = await HexToJson(file.buffer.toString('hex').split('0d0a0d0a')[0])
+            
+            const UploadFile:addvalInput = {
+                path: body.path,
+                tag: [],
+                requestMethod: '',
+                requestURL: '',
+                responseCode: ReturnCodeNHeader.return_code, // hextojson return_code
+                responseHeader: ReturnCodeNHeader.return_header, //hextojson return_header
+                responseData: file.buffer.toString('hex').split('0d0a0d0a')[1],
+                description: body.description
+            }
+            if (body.toDB == "true" || body.toDB == 1) {
+             
+            
+                try{
+                    await this.GraphqlService.addDataByFile(UploadFile)
+                    return res.send("File Uploaded")
+                }catch{
+                    return res.send("Error please check path and the file")
+                    }
+            }
+            const buf = Buffer.from(UploadFile.responseData, 'hex');
+
+            //response Header to json object
+            var ResHeader = UploadFile.responseHeader
+            var ReHead = arrayToObject(ResHeader)
+    
+            return res.set(ReHead).send(buf);
+                
+            
+        }
+        return res.send("Please provide a file and a name");
+    }
+
+
     @Post('/tag')
     FindByTag(@Body() payload){
-        return this.GraphqlService.findByTag(payload.tag);
+        return this.GraphqlService.findByTag(payload.val);
     }
 
 

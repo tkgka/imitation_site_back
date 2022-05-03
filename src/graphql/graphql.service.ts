@@ -42,6 +42,11 @@ export class GraphqlService {
     return this.addData(data);
   }
 
+async addDataByFile(data: addvalInput) {
+  return this.addData(data);
+}
+
+
   async addData(data: MongoGraphql) {
     const session = await startSession();
     try {
@@ -68,7 +73,7 @@ export class GraphqlService {
   }
 
   async findByTag(val): Promise<MongoGraphql[]> {
-    let data = Content.find({ tag: { $all: val }} ,{path:1, Description:1, _id:0})
+    let data = Content.find({ tag: { $all: val }} ,{path:1, description:1, _id:0})
     return data
   }
 
@@ -78,12 +83,12 @@ export class GraphqlService {
   }
 
 async findByResCode(val): Promise<MongoGraphql[]> {
-    let data = Content.find({ responseCode: { $in: val }} ,{path:1, Description:1, _id:0})
+    let data = Content.find({ responseCode: { $in: val }} ,{path:1, description:1, _id:0})
     return data
   }
 
 async findByMethod(val): Promise<MongoGraphql[]> {
-    let data = Content.find({ requestMethod: { $in: val }} ,{path:1, Description:1, _id:0})
+    let data = Content.find({ requestMethod: { $in: val }} ,{path:1, description:1, _id:0})
     return data
   }
 
