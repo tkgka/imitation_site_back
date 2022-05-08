@@ -7,6 +7,7 @@ DBConnect();
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
   app.getHttpAdapter().getInstance().set('etag', false);
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();
