@@ -74,19 +74,25 @@ export class GraphqlService {
   async findAll(): Promise<MongoGraphql[]> {
     return Content.find({}).limit(10);
   }
+  async findAllWithlimit(val): Promise<MongoGraphql[]> {
+    var limit: number
+    var offset: number
+    val.offset == undefined ? (offset = 0) : (offset = val.offset)
+    val.limit == undefined ? (limit = 10) : (limit = val.limit)
+    return Content.find({}).limit(limit).skip(offset).sort({ _id: -1 });
+  }
 
   async findByTag(val): Promise<MongoGraphql[]> {
     var limit: number
     var offset: number
     val.offset == undefined ? (offset = 0) : (offset = val.offset)
     val.limit == undefined ? (limit = 10) : (limit = val.limit)
-    console.log(val)
     let data = Content.find({ tag: { $all: val.tag } }).skip(offset).limit(limit)
     return data
   }
 
   async findByPath(val): Promise<MongoGraphql[]> {
-    let data = Content.find({ path: { $in: val} })
+    let data = Content.find({ path: { $in: val } })
     return data
   }
 

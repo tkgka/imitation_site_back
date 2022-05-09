@@ -21,6 +21,11 @@ export class GraphqlResolver {
 
 
   @Mutation((returns) => [MongoGraphql])
+  findAll(@Args('findAll') findByInput: findByInput): Promise<MongoGraphql[]> {
+    return this.GraphqlService.findAllWithlimit(findByInput);
+  }
+
+  @Mutation((returns) => [MongoGraphql])
   findByTag(@Args('findByTag') findByInput: findByInput): Promise<MongoGraphql[]> {
     return this.GraphqlService.findByTag(findByInput);
   }
