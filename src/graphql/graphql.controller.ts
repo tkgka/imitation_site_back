@@ -9,20 +9,20 @@ const fs = require("fs")
 
 @Controller('graphql')
 export class GraphqlController {
-    constructor(private readonly GraphqlService: GraphqlService) {}
-    
+    constructor(private readonly GraphqlService: GraphqlService) { }
 
 
-    
+
+
     @Post('upload')
     @UseInterceptors(FileInterceptor('file'))
-    async uploadFile(@UploadedFile() file: Express.Multer.File, @Response() res: Res, @Body() body) {
-        // console.log(file,body.name)
+    async uploadFile(@UploadedFile() file: Express.Multer.File, @Response() res: Res, @Body() body): Promise<any> {
+        // console.log(file,body.path)
         if ((file != undefined && file != null) && (body.path != undefined && body.path != null) && (body.toDB != undefined && body.toDB != null)) {
-            
+
             const ReturnCodeNHeader = await HexToJson(file.buffer.toString('hex').split('0d0a0d0a')[0])
-            
-            const UploadFile:addvalInput = {
+
+            const UploadFile: addvalInput = {
                 path: body.path,
                 tag: [],
                 requestMethod: '',
@@ -33,31 +33,37 @@ export class GraphqlController {
                 description: body.description
             }
             if (body.toDB == "true" || body.toDB == 1) {
-             
-            
-                try{
-                    await this.GraphqlService.addDataByFile(UploadFile)
-                    return res.send("File Uploaded")
-                }catch{
-                    return res.send("Error please check path and the file")
+                var resCode = 400
+                if ((await this.GraphqlService.findByPath(body.path)).length <= 0) {
+                    resCode = 406;
+                    try {
+                        await this.GraphqlService.addDataByFile(UploadFile)
+                        return res.send(true)
+                    } catch {
+
+                        return res.status(resCode).send(false)
                     }
+                } else {
+                    return res.status(resCode).send(false)
+                }
+
             }
             const buf = Buffer.from(UploadFile.responseData, 'hex');
 
             //response Header to json object
             var ResHeader = UploadFile.responseHeader
             var ReHead = arrayToObject(ResHeader)
-    
+
             return res.set(ReHead).send(buf);
-                
-            
+
+
         }
-        return res.send("Please provide a file and a name");
+        return res.send(true)
     }
 
 
     @Post('/tag')
-    FindByTag(@Body() payload){
+    FindByTag(@Body() payload) {
         return this.GraphqlService.findByTag(payload.val);
     }
 
@@ -83,7 +89,7 @@ export class GraphqlController {
         //response Header to json object
         var ResHeader = val[0].responseHeader
         var ReHead = arrayToObject(ResHeader)
-    
+
         return res.set(ReHead).send(buf);
 
     }
