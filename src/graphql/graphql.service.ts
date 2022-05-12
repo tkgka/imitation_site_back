@@ -87,7 +87,7 @@ export class GraphqlService {
     var offset: number
     val.offset == undefined ? (offset = 0) : (offset = val.offset)
     val.limit == undefined ? (limit = 10) : (limit = val.limit)
-    let data = Content.find({ tag: { $all: val.tag } }).skip(offset).limit(limit)
+    let data = Content.find({ tag: { $all: val.tag } }).skip(offset).limit(limit).sort({ _id: -1 });
     return data
   }
 
@@ -101,7 +101,7 @@ export class GraphqlService {
     var offset: number
     val.offset == undefined ? (offset = 0) : (offset = val.offset)
     val.limit == undefined ? (limit = 10) : (limit = val.limit)
-    let data = Content.find({ responseCode: { $in: val.responseCode } }).skip(offset).limit(limit)
+    let data = Content.find({ responseCode: { $in: val.responseCode } }).skip(offset).limit(limit).sort({ _id: -1 });
     return data
   }
 
@@ -110,7 +110,7 @@ export class GraphqlService {
     var offset: number
     val.offset == undefined ? (offset = 0) : (offset = val.offset)
     val.limit == undefined ? (limit = 10) : (limit = val.limit)
-    let data = Content.find({ requestMethod: { $in: val.requestMethod } }).skip(offset).limit(limit)
+    let data = Content.find({ requestMethod: { $in: val.requestMethod } }).skip(offset).limit(limit).sort({ _id: -1 });
     return data
   }
 

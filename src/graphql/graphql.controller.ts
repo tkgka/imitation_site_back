@@ -77,6 +77,10 @@ export class GraphqlController {
     async FindByMethod(@Req() req) {
         return await this.GraphqlService.findByMethod(req.query.val);
     }
+    @Get('/path')
+    async FindByPath(@Req() req) {
+        return await this.GraphqlService.findByPath(req.query.val);
+    }
 
     @Get('/hex')
     async ReturnHex(@Response() res: Res, @Req() req) {
