@@ -5,7 +5,7 @@ import { MongoGraphql } from './graphql.entity';
 import { GraphqlService } from './graphql.service';
 @Resolver((of) => MongoGraphql)
 export class GraphqlResolver {
-  constructor(private GraphqlService: GraphqlService) {}
+  constructor(private GraphqlService: GraphqlService) { }
 
   @Query((returns) => [MongoGraphql])
   gql(): Promise<MongoGraphql[]> {
@@ -37,8 +37,14 @@ export class GraphqlResolver {
   }
 
   @Mutation((returns) => [MongoGraphql])
-  findByMethod(@Args('findByMethod') findByInput: findByInput): Promise<MongoGraphql[]> {  
+  findByMethod(@Args('findByMethod') findByInput: findByInput): Promise<MongoGraphql[]> {
     return this.GraphqlService.findByMethod(findByInput);
+  }
+
+  @Mutation((returns) => Boolean)
+  async updateData(@Args('updateData') findByInput: findByInput) {
+    await this.GraphqlService.updatedata(findByInput);;
+    return true
   }
 
 }

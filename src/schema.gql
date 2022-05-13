@@ -27,6 +27,7 @@ type Mutation {
   findByTag(findByTag: findByInput!): [MongoGraphql!]!
   findByResCode(findByResCode: findByInput!): [MongoGraphql!]!
   findByMethod(findByMethod: findByInput!): [MongoGraphql!]!
+  updateData(updateData: findByInput!): Boolean!
 }
 
 input addvalInput {
@@ -49,6 +50,8 @@ input findByInput {
   tag: [String!]
   requestMethod: String
   responseCode: Int
+  responseData: String
+  responseHeader: [KeyValInput!]
   limit: Int
   offset: Int
 }

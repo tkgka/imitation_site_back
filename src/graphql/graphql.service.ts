@@ -6,6 +6,7 @@ import { addvalInput } from './dto/add-val_input';
 const Content = require('../DB/contents');
 import { arrayToObject } from 'src/GlobalFunctions';
 import reg_pattern from '../reg_pattern';
+import { findByInput } from './dto/Find-val_input';
 
 @Injectable()
 export class GraphqlService {
@@ -112,6 +113,11 @@ export class GraphqlService {
     val.limit == undefined ? (limit = 10) : (limit = val.limit)
     let data = Content.find({ requestMethod: { $in: val.requestMethod } }).skip(offset).limit(limit).sort({ _id: -1 });
     return data
+  }
+
+  async updatedata(val: findByInput): Promise<MongoGraphql[]> {
+    await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader } })
+    return this.findByPath(val.path)
   }
 
 
