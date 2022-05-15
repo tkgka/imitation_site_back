@@ -22,7 +22,7 @@ type Query {
 }
 
 type Mutation {
-  addVal(addvalInput: addvalInput!): MongoGraphql!
+  addVal(addvalInput: addvalInput!): Boolean!
   findAll(findAll: findByInput!): [MongoGraphql!]!
   findByTag(findByTag: findByInput!): [MongoGraphql!]!
   findByResCode(findByResCode: findByInput!): [MongoGraphql!]!

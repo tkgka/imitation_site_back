@@ -12,7 +12,7 @@ import { findByInput } from './dto/Find-val_input';
 export class GraphqlService {
 
 
-  async addDataByURL(data: addvalInput): Promise<MongoGraphql> {
+  async addDataByURL(data: addvalInput){
     const RequestHeader = arrayToObject(data.requestHeaders)
     var requestData = null
 
@@ -43,7 +43,13 @@ export class GraphqlService {
     data.responseHeader = NewResponseHeader;
     data.responseData = buf.data.toString('hex');
     // console.log(data)
-    return this.addData(data);
+    try {
+      await this.addData(data);
+      return true
+    }catch {
+      return false
+    }
+    
   }
 
   async addDataByFile(data: addvalInput) {
@@ -59,8 +65,6 @@ export class GraphqlService {
       const result = await newData.save();
       await session.commitTransaction();
       return result;
-
-
     } catch (err) {
       await session.abortTransaction();
       throw err;
@@ -116,16 +120,16 @@ export class GraphqlService {
   }
 
   async updatedata(val: findByInput): Promise<Boolean> {
-    if((await this.findByPath(val.path)).length <= 0){
+    if (val.responseData == "" || (await this.findByPath(val.path)).length <= 0) {
       return false
     }
-    try{
-      await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader, description:val.description} })
+    try {
+      await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader, description: val.description } })
       return true
-    }catch{
+    } catch {
       return false
     }
-    
+
   }
 
 

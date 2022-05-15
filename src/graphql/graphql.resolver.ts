@@ -12,11 +12,9 @@ export class GraphqlResolver {
     return this.GraphqlService.findAll();
   }
 
-  @Mutation((returns) => MongoGraphql)
-  addVal(@Args('addvalInput') addvalInput: addvalInput): Promise<MongoGraphql> {
-    console.log("1")
-    console.log(addvalInput);
-    return this.GraphqlService.addDataByURL(addvalInput);
+  @Mutation((returns) => Boolean)
+  async addVal(@Args('addvalInput') addvalInput: addvalInput) {
+    return await this.GraphqlService.addDataByURL(addvalInput);
   }
 
 
