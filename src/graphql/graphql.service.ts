@@ -115,9 +115,17 @@ export class GraphqlService {
     return data
   }
 
-  async updatedata(val: findByInput): Promise<MongoGraphql[]> {
-    await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader } })
-    return this.findByPath(val.path)
+  async updatedata(val: findByInput): Promise<Boolean> {
+    if((await this.findByPath(val.path)).length <= 0){
+      return false
+    }
+    try{
+      await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader, description:val.description} })
+      return true
+    }catch{
+      return false
+    }
+    
   }
 
 

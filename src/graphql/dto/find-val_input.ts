@@ -20,6 +20,9 @@ export class findByInput {
 
     @Field((type) => [KeyValInput], { nullable: true })
     responseHeader: KeyValInput[];
+    
+    @Field((type) => String, { nullable: true })
+    description?: string;
 
     @Field((type) => Int, { nullable: true })
     limit: number;

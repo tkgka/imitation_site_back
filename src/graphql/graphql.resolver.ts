@@ -43,8 +43,7 @@ export class GraphqlResolver {
 
   @Mutation((returns) => Boolean)
   async updateData(@Args('updateData') findByInput: findByInput) {
-    await this.GraphqlService.updatedata(findByInput);;
-    return true
+    return await this.GraphqlService.updatedata(findByInput);
   }
 
 }

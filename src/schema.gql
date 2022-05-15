@@ -52,6 +52,7 @@ input findByInput {
   responseCode: Int
   responseData: String
   responseHeader: [KeyValInput!]
+  description: String
   limit: Int
   offset: Int
 }
