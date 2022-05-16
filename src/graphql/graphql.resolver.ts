@@ -44,4 +44,9 @@ export class GraphqlResolver {
     return await this.GraphqlService.updatedata(findByInput);
   }
 
+  @Mutation((returns) => Boolean)
+  async DeleteData(@Args('DeleteData') findByInput: findByInput) {
+    return await this.GraphqlService.deleteData(findByInput);
+  }
+
 }

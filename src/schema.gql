@@ -28,6 +28,7 @@ type Mutation {
   findByResCode(findByResCode: findByInput!): [MongoGraphql!]!
   findByMethod(findByMethod: findByInput!): [MongoGraphql!]!
   updateData(updateData: findByInput!): Boolean!
+  DeleteData(DeleteData: findByInput!): Boolean!
 }
 
 input addvalInput {

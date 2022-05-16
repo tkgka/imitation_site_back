@@ -12,7 +12,7 @@ import { findByInput } from './dto/Find-val_input';
 export class GraphqlService {
 
 
-  async addDataByURL(data: addvalInput){
+  async addDataByURL(data: addvalInput) {
     const RequestHeader = arrayToObject(data.requestHeaders)
     var requestData = null
 
@@ -46,10 +46,10 @@ export class GraphqlService {
     try {
       await this.addData(data);
       return true
-    }catch {
+    } catch {
       return false
     }
-    
+
   }
 
   async addDataByFile(data: addvalInput) {
@@ -74,7 +74,17 @@ export class GraphqlService {
   }
 
 
-
+  async deleteData(val: findByInput): Promise<Boolean> {
+    if (val.path.length <= 0) {
+      return false
+    }
+    try {
+      await Content.deleteOne({ path: { $in: val.path } })
+      return true
+    } catch {
+      return false
+    }
+  }
 
   async findAll(): Promise<MongoGraphql[]> {
     return Content.find({}).limit(10);
