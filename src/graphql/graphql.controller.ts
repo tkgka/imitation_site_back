@@ -1,4 +1,4 @@
-import { Controller, Get, Response, Req, Body, Post, UploadedFile, Bind, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Response, Req, Body, Post, UploadedFile, Bind, UseInterceptors, Param } from '@nestjs/common';
 import { Response as Res } from 'express';
 import { GraphqlService } from './graphql.service';
 import { arrayToObject, HexToJson } from 'src/GlobalFunctions';
@@ -82,12 +82,9 @@ export class GraphqlController {
         return await this.GraphqlService.findByPath(req.query.val);
     }
 
-    @Get('/hex')
-    async ReturnHex(@Response() res: Res, @Req() req) {
-        if (req.query.val == undefined || req.query.val == "" || req.query.val == null) {
-            return res.send("Please provide a path");
-        }
-        const val = await this.GraphqlService.findByPath(req.query.val);
+    @Get('/hex/:id')
+    async ReturnHex(@Param("id") id:String, @Response() res: Res, @Req() req) {
+        const val = await this.GraphqlService.findByPath(id);
         const buf = Buffer.from(val[0].responseData, 'hex');
 
         //response Header to json object
