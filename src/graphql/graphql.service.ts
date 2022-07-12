@@ -87,13 +87,13 @@ export class GraphqlService {
   }
 
   async findAll(): Promise<MongoGraphql[]> {
-    return Content.find({}).limit(10);
+    return Content.find({}).limit(12);
   }
   async findAllWithlimit(val): Promise<MongoGraphql[]> {
     var limit: number
     var offset: number
     val.offset == undefined ? (offset = 0) : (offset = val.offset)
-    val.limit == undefined ? (limit = 10) : (limit = val.limit)
+    val.limit == undefined ? (limit = 12) : (limit = val.limit)
     return Content.find({}).limit(limit).skip(offset).sort({ _id: -1 });
   }
 
@@ -134,7 +134,7 @@ export class GraphqlService {
       return false
     }
     try {
-      await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader, description: val.description } })
+      await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader, description: val.description, responseCode: val.responseCode} })
       return true
     } catch {
       return false

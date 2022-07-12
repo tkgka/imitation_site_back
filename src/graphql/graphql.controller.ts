@@ -53,8 +53,9 @@ export class GraphqlController {
             //response Header to json object
             var ResHeader = UploadFile.responseHeader
             var ReHead = arrayToObject(ResHeader)
-
-            return res.set(ReHead).send(buf);
+            //response code
+            var ResCode = UploadFile.responseCode
+            return res.set(ReHead).status(ResCode).send(buf);
 
 
         }
@@ -83,15 +84,16 @@ export class GraphqlController {
     }
 
     @Get('/hex/:id')
-    async ReturnHex(@Param("id") id:String, @Response() res: Res, @Req() req) {
+    async ReturnHex(@Param("id") id: String, @Response() res: Res, @Req() req) {
         const val = await this.GraphqlService.findByPath(id);
         const buf = Buffer.from(val[0].responseData, 'hex');
 
         //response Header to json object
         var ResHeader = val[0].responseHeader
         var ReHead = arrayToObject(ResHeader)
-
-        return res.set(ReHead).send(buf);
+        //response code
+        var ResCode = val[0].responseCode
+        return res.set(ReHead).status(ResCode).send(buf);
 
     }
 }
