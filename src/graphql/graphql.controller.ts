@@ -101,9 +101,9 @@ export class GraphqlController {
     async Delete(@Param("id") id: String, @Response() res: Res, @Req() req) {
         const val = await this.GraphqlService.findByPath(id);
         if (val.length > 0) {
-            return await this.GraphqlService.deleteDataByPath(val[0].path);
+            return res.send(await this.GraphqlService.deleteDataByPath(val[0].path));
         } else {
-            return false
+            return res.send(false);
         }
 
     }
