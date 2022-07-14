@@ -130,11 +130,11 @@ export class GraphqlService {
   }
 
   async updatedata(val: findByInput): Promise<Boolean> {
-    if (val.responseData == "" || (await this.findByPath(val.path)).length <= 0) {
+    if (val.responseData == "" || (await this.findByPath(val.path)).length <= 0 || val.responseCode < 100) {
       return false
     }
     try {
-      await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader, description: val.description, responseCode: val.responseCode} })
+      await Content.updateOne({ path: { $in: val.path } }, { $set: { responseData: val.responseData, tag: val.tag, responseHeader: val.responseHeader, description: val.description, responseCode: val.responseCode } })
       return true
     } catch {
       return false
@@ -142,5 +142,18 @@ export class GraphqlService {
 
   }
 
+  //delete data by path
+  async deleteDataByPath(val: string): Promise<Boolean> {
+    // for the exception handling
+    if (val.length <= 0) {
+      return false
+    }
 
+    try {
+      await Content.deleteOne({ path: { $in: val } })
+      return true
+    } catch {
+      return false
+    }
+  }
 }

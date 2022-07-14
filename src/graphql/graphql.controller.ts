@@ -96,7 +96,15 @@ export class GraphqlController {
         return res.set(ReHead).status(ResCode).send(buf);
 
     }
+
+    @Get('/del/:id')
+    async Delete(@Param("id") id: String, @Response() res: Res, @Req() req) {
+        const val = await this.GraphqlService.findByPath(id);
+        if (val.length > 0) {
+            return await this.GraphqlService.deleteDataByPath(val[0].path);
+        } else {
+            return false
+        }
+
+    }
 }
-
-
-
