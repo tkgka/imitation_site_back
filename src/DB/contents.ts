@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config()
 
 const { Schema } = mongoose;
 const contentSchema: any = new Schema({
@@ -42,4 +42,4 @@ const contentSchema: any = new Schema({
   },
 });
 
-module.exports = mongoose.model(process.env.DBCollection, contentSchema);
+module.exports = mongoose.model(dotenv.parsed.DBCollection, contentSchema);
