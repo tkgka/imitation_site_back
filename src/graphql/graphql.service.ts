@@ -6,7 +6,7 @@ import { addvalInput } from './dto/add-val_input';
 const Content = require('../DB/contents');
 import { arrayToObject } from 'src/GlobalFunctions';
 import reg_pattern from '../reg_pattern';
-import { findByInput } from './dto/Find-val_input';
+import { findByInput } from './dto/find-val_input';
 
 @Injectable()
 export class GraphqlService {

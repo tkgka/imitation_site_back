@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { addvalInput } from './dto/add-val_input';
-import { findByInput } from './dto/Find-val_input';
+import { findByInput } from './dto/find-val_input';
 import { MongoGraphql } from './graphql.entity';
 import { GraphqlService } from './graphql.service';
 @Resolver((of) => MongoGraphql)
