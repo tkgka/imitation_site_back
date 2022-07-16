@@ -42,4 +42,4 @@ const contentSchema: any = new Schema({
   },
 });
 
-module.exports = mongoose.model(dotenv.parsed.DBCollection, contentSchema);
+module.exports = mongoose.model(process.env.DBCollection, contentSchema);
