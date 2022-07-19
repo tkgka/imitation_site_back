@@ -15,7 +15,7 @@ export class AppController {
       // console.log(response.headers);
       return res.set(response.headers).send(response.data);
     } catch (e) {
-      return e;
+      return res.send("Error");
     }
   }
 

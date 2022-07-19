@@ -40,7 +40,6 @@ export class GraphqlController {
                         await this.GraphqlService.addDataByFile(UploadFile)
                         return res.send(true)
                     } catch {
-
                         return res.status(resCode).send(false)
                     }
                 } else {
@@ -55,7 +54,12 @@ export class GraphqlController {
             var ReHead = arrayToObject(ResHeader)
             //response code
             var ResCode = UploadFile.responseCode
-            return res.set(ReHead).status(ResCode).send(buf);
+            try{
+                return res.set(ReHead).status(ResCode).send(buf);
+            }catch{
+                return res.send("Error");
+            }
+            
 
 
         }
@@ -93,7 +97,12 @@ export class GraphqlController {
         var ReHead = arrayToObject(ResHeader)
         //response code
         var ResCode = val[0].responseCode
-        return res.set(ReHead).status(ResCode).send(buf);
+        try{
+            return res.set(ReHead).status(ResCode).send(buf);
+        }catch{
+            return res.send("Error");
+        }
+        
 
     }
 
