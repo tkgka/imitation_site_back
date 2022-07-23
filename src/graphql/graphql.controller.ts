@@ -18,9 +18,8 @@ export class GraphqlController {
     @Post('upload')
     @UseInterceptors(FileInterceptor('file'))
     async uploadFile(@UploadedFile() file: Express.Multer.File, @Response() res: Res, @Body() body): Promise<any> {
-        console.log(body.path)
         if ((file != undefined && file != null) && (body.toDB != undefined && body.toDB != null)) {
-            if (body.path.length <= 0) {
+            if (body.path == undefined || body.path == null || body.path.length <= 0) {
                 body.path = Math.random().toString(36).substr(2,12);
             }
             const ReturnCodeNHeader = await HexToJson(file.buffer.toString('hex').split('0d0a0d0a')[0])
