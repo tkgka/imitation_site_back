@@ -38,6 +38,7 @@ const contentSchema: any = new Schema({
   },
   createdAt: {
     type: Date,
+    expires: 60 * 60 * 24,
     default: Date.now,
   },
 });

@@ -5,6 +5,7 @@ import { arrayToObject, HexToJson } from 'src/GlobalFunctions';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MongoGraphql } from './graphql.entity';
 import { addvalInput } from './dto/add-val_input';
+const randomBytes = require('crypto').randomBytes(2)
 const fs = require("fs")
 
 @Controller('graphql')
@@ -17,9 +18,11 @@ export class GraphqlController {
     @Post('upload')
     @UseInterceptors(FileInterceptor('file'))
     async uploadFile(@UploadedFile() file: Express.Multer.File, @Response() res: Res, @Body() body): Promise<any> {
-        // console.log(file,body.path)
-        if ((file != undefined && file != null) && (body.path != undefined && body.path != null) && (body.toDB != undefined && body.toDB != null)) {
-
+        console.log(body.path)
+        if ((file != undefined && file != null) && (body.toDB != undefined && body.toDB != null)) {
+            if (body.path.length <= 0) {
+                body.path = Math.random().toString(36).substr(2,12);
+            }
             const ReturnCodeNHeader = await HexToJson(file.buffer.toString('hex').split('0d0a0d0a')[0])
 
             const UploadFile: addvalInput = {
@@ -32,13 +35,13 @@ export class GraphqlController {
                 responseData: file.buffer.toString('hex').split('0d0a0d0a')[1],
                 description: body.description
             }
+            
             if (body.toDB == "true" || body.toDB == 1) {
                 var resCode = 400
                 if ((await this.GraphqlService.findByPath(body.path)).length <= 0) {
-                    resCode = 406;
                     try {
                         await this.GraphqlService.addDataByFile(UploadFile)
-                        return res.send(true)
+                        return res.send(body.path)
                     } catch {
                         return res.status(resCode).send(false)
                     }
@@ -47,6 +50,7 @@ export class GraphqlController {
                 }
 
             }
+            
             const buf = Buffer.from(UploadFile.responseData, 'hex');
 
             //response Header to json object
