@@ -38,14 +38,15 @@ export class GraphqlService {
       NewResponseHeader.push({ key: key, value: buf.headers[key] })
 
     }
-
+    if (data.path == undefined) {
+      data.path = Math.random().toString(36).substr(2,12);
+    }
     data.responseCode = buf.status;
     data.responseHeader = NewResponseHeader;
     data.responseData = buf.data.toString('hex');
     // console.log(data)
     try {
-      await this.addData(data);
-      return true
+      return await this.addData(data);
     } catch {
       return false
     }
@@ -64,7 +65,7 @@ export class GraphqlService {
       const newData = new Content(data);
       const result = await newData.save();
       await session.commitTransaction();
-      return result;
+      return result.path;
     } catch (err) {
       await session.abortTransaction();
       throw err;

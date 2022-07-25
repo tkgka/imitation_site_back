@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class addvalInput {
-  @Field()
+  @Field((type) => String, { nullable: true })
   path: string;
 
   @Field((type) => [String], { nullable: true })

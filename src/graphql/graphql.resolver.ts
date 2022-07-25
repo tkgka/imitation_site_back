@@ -12,7 +12,7 @@ export class GraphqlResolver {
     return this.GraphqlService.findAll();
   }
 
-  @Mutation((returns) => Boolean)
+  @Mutation((returns) => String)
   async addVal(@Args('addvalInput') addvalInput: addvalInput) {
     return await this.GraphqlService.addDataByURL(addvalInput);
   }
