@@ -5,7 +5,7 @@ import { KeyValInput } from './add-val_input';
 export class findByInput {
 
     @Field((type) => String, { nullable: true })
-    path: string;
+    path: string; // not using now
 
     @Field((type) => [String], { nullable: true })
     tag?: string[];

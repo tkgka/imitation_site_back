@@ -34,11 +34,12 @@ type Mutation {
 input addvalInput {
   path: String
   tag: [String!]
+  requestURL: String
   requestMethod: String!
-  requestURL: String!
+  responseCode: Float!
+  responseHeader: [KeyValInput!]!
+  responseData: String!
   description: String
-  requestHeaders: [KeyValInput!]
-  requestData: [KeyValInput!]
 }
 
 input KeyValInput {

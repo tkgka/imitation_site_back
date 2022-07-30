@@ -12,10 +12,10 @@ export class GraphqlResolver {
     return this.GraphqlService.findAll();
   }
 
-  // @Mutation((returns) => String)
-  // async addVal(@Args('addvalInput') addvalInput: addvalInput) {
-  //   return await this.GraphqlService.addDataByURL(addvalInput);
-  // }
+  @Mutation((returns) => String)
+  async addVal(@Args('addvalInput') addvalInput: addvalInput) {
+    return await this.GraphqlService.addData(addvalInput);
+  }
 
 
   @Mutation((returns) => [MongoGraphql])

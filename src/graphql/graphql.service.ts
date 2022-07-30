@@ -11,54 +11,14 @@ import { findByInput } from './dto/find-val_input';
 @Injectable()
 export class GraphqlService {
 
-
-  async addDataByURL(data: addvalInput) {
-    const RequestHeader = arrayToObject(data.requestHeaders)
-    var requestData = null
-
-    if (data.requestData != undefined) {
-      requestData = arrayToObject(data.requestData)
-    }
-    data.requestURL.match(reg_pattern.pattern) ? (data.requestURL = data.requestURL) : (data.requestURL = `https://${data.requestURL}`);
-
-    const buf = await Axios({
-      url: data.requestURL,
-      method: data.requestMethod,
-      responseType: 'arraybuffer',
-      headers: RequestHeader,
-      data: requestData
-    });
-
-    var NewResponseHeader = []
-
-    for (var key in buf.headers) {
-      if (Array.isArray(buf.headers[key])) {
-        buf.headers[key] = buf.headers[key][0]
-      }
-      NewResponseHeader.push({ key: key, value: buf.headers[key] })
-
-    }
-    if (data.path == undefined) {
-      data.path = Math.random().toString(36).substr(2,12);
-    }
-    data.responseCode = buf.status;
-    data.responseHeader = NewResponseHeader;
-    data.responseData = buf.data.toString('hex');
-    // console.log(data)
-    try {
-      return await this.addData(data);
-    } catch {
-      return false
-    }
-
-  }
-
   async addDataByFile(data: addvalInput) {
     return this.addData(data);
   }
 
 
   async addData(data: MongoGraphql) {
+    data.path = Math.random().toString(36).substr(2,12); // update path to random string
+    console.log(data.responseData)
     const session = await startSession();
     try {
       session.startTransaction();
