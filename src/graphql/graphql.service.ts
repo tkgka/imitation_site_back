@@ -17,8 +17,7 @@ export class GraphqlService {
 
 
   async addData(data: MongoGraphql) {
-    data.path = Math.random().toString(36).substr(2,12); // update path to random string
-    console.log(data.responseData)
+    data.path = Math.random().toString(36).substr(2, 12); // update path to random string
     const session = await startSession();
     try {
       session.startTransaction();
