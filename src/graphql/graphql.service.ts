@@ -11,13 +11,10 @@ import { findByInput } from './dto/find-val_input';
 @Injectable()
 export class GraphqlService {
 
-  async addDataByFile(data: addvalInput) {
-    return this.addData(data);
-  }
-
-
   async addData(data: MongoGraphql) {
-    data.path = Math.random().toString(36).substr(2, 12); // update path to random string
+    if (data.path == undefined || data.path.length <= 0) {
+      data.path = Math.random().toString(36).substr(2, 12); // update path to random string
+    }
     const session = await startSession();
     try {
       session.startTransaction();

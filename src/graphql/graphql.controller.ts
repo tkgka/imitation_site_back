@@ -19,9 +19,9 @@ export class GraphqlController {
     @UseInterceptors(FileInterceptor('file'))
     async uploadFile(@UploadedFile() file: Express.Multer.File, @Response() res: Res, @Body() body): Promise<any> {
         if ((file != undefined && file != null) && (body.toDB != undefined && body.toDB != null)) {
-            if (body.path == undefined || body.path == null || body.path.length <= 0) {
-                body.path = Math.random().toString(36).substr(2,12);
-            }
+
+            body.path = Math.random().toString(36).substr(2, 12);
+
             const ReturnCodeNHeader = await HexToJson(file.buffer.toString('hex').split('0d0a0d0a')[0])
 
             const UploadFile: addvalInput = {
@@ -34,12 +34,12 @@ export class GraphqlController {
                 responseData: file.buffer.toString('hex').split('0d0a0d0a')[1],
                 description: body.description
             }
-            
+
             if (body.toDB == "true" || body.toDB == 1) {
                 var resCode = 400
                 if ((await this.GraphqlService.findByPath(body.path)).length <= 0) {
                     try {
-                        await this.GraphqlService.addDataByFile(UploadFile)
+                        await this.GraphqlService.addData(UploadFile)
                         return res.send(body.path)
                     } catch {
                         return res.status(resCode).send(false)
@@ -49,7 +49,7 @@ export class GraphqlController {
                 }
 
             }
-            
+
             const buf = Buffer.from(UploadFile.responseData, 'hex');
 
             //response Header to json object
@@ -57,12 +57,12 @@ export class GraphqlController {
             var ReHead = arrayToObject(ResHeader)
             //response code
             var ResCode = UploadFile.responseCode
-            try{
+            try {
                 return res.set(ReHead).status(ResCode).send(buf);
-            }catch{
+            } catch {
                 return res.send("Error");
             }
-            
+
 
 
         }
@@ -100,12 +100,12 @@ export class GraphqlController {
         var ReHead = arrayToObject(ResHeader)
         //response code
         var ResCode = val[0].responseCode
-        try{
+        try {
             return res.set(ReHead).status(ResCode).send(buf);
-        }catch{
+        } catch {
             return res.send("Error");
         }
-        
+
 
     }
 
